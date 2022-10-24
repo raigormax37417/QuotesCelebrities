@@ -10,12 +10,13 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class QuoteLocalDataSourceImpl  @Inject constructor(private val quoteDao: QuoteDao): QuoteLocalDataSource {
+
     override fun getQuotes(): Flow<List<QuoteModel>> {
         val quotes = quoteDao.getQuotes()
         return quotes.map { it.toListQuoteModel() }
     }
 
-    override   fun getQuote(quoteId: Int): Flow<QuoteModel> {
+    override fun getQuote(quoteId: Int): Flow<QuoteModel> {
         return  quoteDao.getQuote(quoteId).map { it.toQuoteModel()}
     }
 
