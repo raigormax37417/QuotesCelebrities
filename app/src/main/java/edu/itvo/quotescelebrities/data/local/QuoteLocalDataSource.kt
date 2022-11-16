@@ -11,4 +11,5 @@ interface QuoteLocalDataSource {
 
     suspend fun  insertAll(quotes : List<QuoteModel>)
     suspend fun  insert(quoteModel: QuoteModel )
+    suspend fun  editQuote(quoteModel: QuoteModel)
 }

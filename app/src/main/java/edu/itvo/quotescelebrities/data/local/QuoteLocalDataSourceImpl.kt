@@ -36,4 +36,7 @@ class QuoteLocalDataSourceImpl  @Inject constructor(private val quoteDao: QuoteD
         quoteDao.insert(quoteModel.toEntity())
     }
 
+    override suspend fun editQuote(quoteModel: QuoteModel) {
+        quoteDao.updateQuote(quoteModel.toEntity())
+    }
 }

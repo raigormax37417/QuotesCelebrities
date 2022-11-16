@@ -1,9 +1,6 @@
 package edu.itvo.quotescelebrities.data.local.daos
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import edu.itvo.quotescelebrities.data.local.entities.QuoteEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -30,5 +27,7 @@ interface QuoteDao {
 
     @Query("DELETE FROM quote WHERE id=:quoteId ")
     suspend fun delete(quoteId: Int)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateQuote(quote: QuoteEntity)
 
 }

@@ -2,11 +2,12 @@ package edu.itvo.quotescelebrities.presentation.view
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import edu.itvo.quotescelebrities.domain.model.QuoteModel
 import edu.itvo.quotescelebrities.presentation.viewmodel.QuoteListViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class QuoteListFragment : Fragment(), CellClickListener {
@@ -38,18 +40,37 @@ class QuoteListFragment : Fragment(), CellClickListener {
         }
         return root
     }
-    override fun onCellClickListener(quoteModel: QuoteModel) {
-        //val i = Intent(this,PetEdit::class.java)
 
-        //startActivity(i)
+    private fun callEditQuote(currentQuote: QuoteModel){
+        val bundle = bundleOf(
+            Pair("id", currentQuote.id),
+            Pair("quote", currentQuote.quote),
+            Pair("author",currentQuote.author)
+        )
+
+
+        val quoteEditFragment =QuoteEditFragment()
+        quoteEditFragment.arguments = bundle
+
+        parentFragmentManager.beginTransaction()
+            .replace(edu.itvo.quotescelebrities.R.id.nav_host_fragment_content_drawer_navigation,
+                quoteEditFragment).addToBackStack(this.tag)
+            .setReorderingAllowed(true)
+            .commit()
+
     }
+
+
     private fun observer(){
 
         lifecycleScope.launch {
             quoteListViewModel.quotes.collect{
                 val adapter = QuoteAdapter( it.data as List<QuoteModel>, this@QuoteListFragment)
-                binding.recyclerView.layoutManager= LinearLayoutManager(context)
-                binding.recyclerView.adapter = adapter
+                with (binding){
+                    recyclerView.layoutManager= LinearLayoutManager(context)
+                    recyclerView.adapter = adapter
+                }
+
 
             }
         }
@@ -59,6 +80,12 @@ class QuoteListFragment : Fragment(), CellClickListener {
             }
         }
     }
+
+
+    override fun onCellClickListener(quoteModel: QuoteModel) {
+        callEditQuote(quoteModel)
+    }
+
 
 
 }

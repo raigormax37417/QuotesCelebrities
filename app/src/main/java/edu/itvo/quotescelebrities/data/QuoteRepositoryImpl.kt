@@ -25,4 +25,11 @@ class QuoteRepositoryImpl @Inject constructor
         return  localDataSource.getQuotes()
     }
 
+    override suspend fun editQuote(quoteModel: QuoteModel) {
+        return localDataSource.editQuote(quoteModel)
+    }
+
+    override suspend fun addQuote(quoteModel: QuoteModel) {
+        return localDataSource.insert(quoteModel)
+    }
 }
