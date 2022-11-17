@@ -31,7 +31,7 @@ class QuoteAdapter(private val quotes: List<QuoteModel>,
                 binding.tvQuote.text =  this.quote
                 binding.tvAuthor.text = this.author
 
-                binding.cvQuote.setOnClickListener{
+                binding.imgEdit.setOnClickListener{
                     cellClickListener.onCellClickListener(this)
                 }
             }
