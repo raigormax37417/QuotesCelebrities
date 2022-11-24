@@ -16,6 +16,7 @@ class CustomAlert {
         binding.message.text= msg
         binding.btnOK.setOnClickListener {
             dialog.dismiss()
+
         }
         dialog.show()
     }

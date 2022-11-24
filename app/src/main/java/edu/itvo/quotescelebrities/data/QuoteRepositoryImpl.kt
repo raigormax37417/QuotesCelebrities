@@ -1,14 +1,13 @@
 package edu.itvo.quotescelebrities.data
 
 import edu.itvo.quotescelebrities.data.local.QuoteLocalDataSource
-import edu.itvo.quotescelebrities.data.model.QuoteResponse
+import edu.itvo.quotescelebrities.data.remote.QuoteApiResponse
 import edu.itvo.quotescelebrities.data.remote.QuoteRemoteDataSource
 import edu.itvo.quotescelebrities.domain.QuoteRepository
 import edu.itvo.quotescelebrities.domain.model.QuoteModel
 import edu.itvo.quotescelebrities.presentation.NetworkErrorException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.toList
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,7 +32,7 @@ class QuoteRepositoryImpl @Inject constructor
 
     */
 
-    override suspend fun getQuotes(): Flow<QuoteResponse?> {
+    override suspend fun getQuotes(): Flow<QuoteApiResponse?> {
         val localQuotes=  localDataSource.getQuotes()
         val  remoteQuotes =
             try {

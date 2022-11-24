@@ -3,9 +3,8 @@ package edu.itvo.quotescelebrities.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.itvo.quotescelebrities.data.model.QuoteResponse
+import edu.itvo.quotescelebrities.data.remote.QuoteApiResponse
 import edu.itvo.quotescelebrities.domain.model.QuoteModel
-import edu.itvo.quotescelebrities.domain.usecase.GetQuoteRandomUseCase
 import edu.itvo.quotescelebrities.domain.usecase.GetQuotesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,9 +20,11 @@ class QuoteListViewModel
 @Inject constructor (private val getQuotesUseCase: GetQuotesUseCase
 ): ViewModel(){
     val quote = QuoteModel(0,"Solo se que no se nada","Socrates")
-    private var _quotes = MutableStateFlow(QuoteResponse(false,"",listOf(
-        quote)))
-    val quotes : StateFlow<QuoteResponse> = _quotes
+    private var _quotes = MutableStateFlow(
+        QuoteApiResponse(false,"",listOf(
+        quote))
+    )
+    val quotes : StateFlow<QuoteApiResponse> = _quotes
 
     private val _stateLoading = MutableStateFlow<Boolean>(false)
     val isLoading : StateFlow<Boolean> = _stateLoading

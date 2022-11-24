@@ -49,7 +49,7 @@ class QuoteEditFragment : Fragment() {
                 }
                 val alert = CustomAlert()
                 alert.showDialog(this@QuoteEditFragment.parentFragment, getString(R.string.saved))
-
+                activity?.onBackPressed()
             }
         }
         return root

@@ -6,13 +6,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import edu.itvo.quotescelebrities.data.QuoteRepositoryImpl
-import edu.itvo.quotescelebrities.data.local.QuoteLocalDataSource
-import edu.itvo.quotescelebrities.data.local.QuoteLocalDataSourceImpl
-import edu.itvo.quotescelebrities.data.local.daos.QuoteDao
-import edu.itvo.quotescelebrities.data.remote.ApiInterface
-import edu.itvo.quotescelebrities.data.remote.QuoteRemoteDataSource
+import edu.itvo.quotescelebrities.data.remote.QuoteApiInterface
+
 import edu.itvo.quotescelebrities.data.remote.QuoteRemoteDataSourceImpl
+import edu.itvo.quotescelebrities.data.remote.UserApiInterface
+import edu.itvo.quotescelebrities.data.remote.UserRemoteDataSourceImpl
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -26,7 +24,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private const val BASE_URL = "http://192.168.0.14:8080/"
+    private const val BASE_URL = "https://5bdd-186-96-178-138.ngrok.io" //"http://10.1.6.10:8080/"
 
     @Provides
     @Singleton
@@ -80,12 +78,22 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRemoteDataSourceImpl(apiInterface: ApiInterface) =
-        QuoteRemoteDataSourceImpl(apiInterface)
+    fun provideQuoteRemoteDataSourceImpl(quoteApiInterface: QuoteApiInterface) =
+        QuoteRemoteDataSourceImpl(quoteApiInterface)
 
     @Singleton
     @Provides
-    fun provideApiInterface(retrofit: Retrofit): ApiInterface =
-        retrofit.create(ApiInterface::class.java)
+    fun provideQuoteApiInterface(retrofit: Retrofit): QuoteApiInterface =
+        retrofit.create(QuoteApiInterface::class.java)
 
+    //--- injection for class and interfaces User
+    @Singleton
+    @Provides
+    fun provideUserRemoteDataSourceImpl(userApiInterface: UserApiInterface) =
+        UserRemoteDataSourceImpl(userApiInterface)
+
+    @Singleton
+    @Provides
+    fun provideUserApiInterface(retrofit: Retrofit): UserApiInterface =
+        retrofit.create(UserApiInterface::class.java)
 }
